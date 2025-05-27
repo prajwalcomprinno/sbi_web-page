@@ -1,0 +1,407 @@
+$(document).ready(function() {
+	
+	if (window.location.href.indexOf("hindi") > -1) {
+       $jsonFilePath = '../hindi/';
+    } else { 
+	   $jsonFilePath = 'sbijava/';
+	}
+	
+	//RINB Video
+	$(".rinb_video").click(function(){
+		$("#inb-list").toggle("slow");
+	});
+	
+	//Scroll Message
+	setTimeout(function(){
+		$.getJSON($jsonFilePath + 'js/scroll_data.json', function(v){
+			if( v.scroll_message.scroll_value =='' || v.scroll_message.flag === 'false') {
+				$('#message p').hide();
+			} 
+			else {
+				$('#message p').html(v.scroll_message.scroll_description);	
+			}
+		});
+	},300);
+	
+	//Dynamic Banner - Json
+	$.getJSON($jsonFilePath + 'js/banner_data.json', function(data) {
+		var indicators='', inner_items='';
+		
+		$.each(data.items, function(_ix, _item) {
+			if(_item.display == 'true') {
+				var _active = (_ix==0 ? 'active' : '');
+				var inner_item = '<div class="carousel-item ' +_active+ '"><div class="fill">';
+				var indicator_title = _item.img_title || 'banner indicator';
+				
+				indicators += '<li data-bs-target="#sbihomeBannerCarousel" data-bs-slide-to="'+ _ix +'" class="'+ _active +'">&nbsp;</li>';
+				
+				if(_item.html_content) {
+					inner_item += _item.html_content;
+				}
+				else {
+					var _src = $jsonFilePath + "images/" +_item.banner_img;
+					var _img = '<img title="'+ _item.img_title +'" alt="'+ _item.img_alt +'" src="'+ _src +'">';
+
+					if(_item.a_href_link) {
+						var a_img = '<a href="'+ _item.a_href_link +'" class="banner_link" target="_blank">'+ _img + '</a>';
+						inner_item += a_img;
+					}
+					else {
+						inner_item += _img;
+					}
+				}
+				inner_item += '</div></div>';
+				inner_items += inner_item;
+			}
+		});
+		//
+		$(".carousel-inner").html( inner_items );
+		$(".carousel-indicators").html( indicators );
+		//
+		const sbihomeBannerCarousel = document.querySelector('#sbihomeBannerCarousel');
+		const carousel = new bootstrap.Carousel(sbihomeBannerCarousel, {interval:8000, ride:'carousel', cycle:true});
+	});
+	//Dynamic Banner - Json - Ends
+	
+	//Anchor Tag
+	$('A[rel="_blank"]').each(function(){
+        $(this).attr('target', '_blank');
+    });
+	
+	//Custom Select
+	$(".custom-select").each(function(){
+		$(this).wrap("<span class='select-wrapper'></span>");
+		$(this).after("<span class='holder'></span>");
+	});
+	
+	$(".custom-select").change(function(){
+		var selectedOption = $(this).find(":selected").text();
+		$(this).next(".holder").text(selectedOption);
+	}).trigger('change');
+	
+	// Accordian - Netbanking branches
+	/* $('.useful_link a').click(function(){
+		if($('#netbanking_popup').is(':hidden')) {
+			$('#netbanking_popup').slideDown(400);
+			$('#header').animate({'marginTop':'0px'});
+			$(this).addClass('netbanking_button_up');
+		}else{
+			$('#netbanking_popup').slideUp(400);
+			$('#header').animate({'marginTop':'0px'});
+			$(this).removeClass('netbanking_button_up');
+		}
+	});
+	
+	$('.useful_link_mob a').click(function(){
+		$('#netbanking_popup_mob').css('height','100%');
+	});
+	$('.closebtn').click(function(){
+		$('#netbanking_popup_mob').css('height','0%');
+	}); */
+		
+});
+
+//Corporate Dropdown
+function goToNewPage() {
+	var corporateValue = document.getElementById('target').value;
+	if(corporateValue == "Select") {
+		alert("Please Select Corporate Type");
+	}
+	else {
+		if(document.getElementById('target').value){
+			window.location.href = document.getElementById('target').value;
+		}
+	}
+}
+
+//New User Click
+function fnNewUserClick(){
+      /* var retVal = confirm("If you have already obtained Pre-Printed Kit  from the branch for activating INB facility , please don't proceed  with this link. You can input userid and password given in PPK on normal login screen.");
+      if( retVal == true ){ 
+            window.open('https://retail.onlinesbi.sbi/retail/userdrivenregdetailswin.htm','aboutus','width=920, height=500 ,status=1, scrollbars=1, location=0');
+      } */
+	  
+	  window.open('https://retail.onlinesbi.sbi/retail/newuserreg.htm','aboutus','width=920, height=500 ,status=1, scrollbars=1, location=0');
+	  
+}
+
+//Salary Account
+function salaryClick(){
+	var salVal = confirm("Salary Account  link is meant for opening salary account of such employee(s), whose employer have tie up with SBI under Corporate Salary Package. If your employer does not have such tie-up, please go to Regular Savings Account link.");
+	if( salVal == true ){ 
+		window.open('https://www.sbiyono.sbi/wps/portal/accountopening/digital-account#!/aoCustomerOpenOVD');
+	}
+}
+
+// BOOTSTRAP-5.x current-grid ------------------------------------ STARTS
+var bs5grid = [
+'<div id="bs5-grid" style="visibility:hidden; position:fixed; top:-9876543210px; left:-9876543210px;">',
+	'<div data-bs5-grid="xxl" data-device="desktop" class="bs5-grid d-none d-xxl-block">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = XXL</span>',
+	'</div>',
+	'<div data-bs5-grid="xl"  data-device="desktop" class="bs5-grid d-none d-xl-block d-xxl-none">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = XL</span>',
+	'</div>',
+	'<div data-bs5-grid="lg"  data-device="desktop" class="bs5-grid d-none d-lg-block d-xl-none">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = LG</span>',
+	'</div>',
+	'<div data-bs5-grid="md"  data-device="mobile" class="bs5-grid d-none d-md-block d-lg-none">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = MD</span>',
+	'</div>',
+	'<div data-bs5-grid="sm"  data-device="mobile" class="bs5-grid d-none d-sm-block d-md-none">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = SM</span>',
+	'</div>',
+	'<div data-bs5-grid="xs"  data-device="mobile" class="bs5-grid d-block d-sm-none">',
+		'<span class="d-none">CURRENT-BOOOTSTRAP-5.x-GRID = XS</span>',
+	'</div>',
+'</div>'];
+var $bs5grid = $(bs5grid.join(''));
+
+function get_bs5_grid_name() {
+	window.bs5_grid = $('.bs5-grid:visible').data('bs5Grid');
+	return window.bs5_grid;
+}
+function get_bs5_device() {
+	return $('.bs5-grid:visible').data('device');
+}
+function set_bs5_grid_name() {
+	var gn = get_bs5_grid_name();
+	var dn = get_bs5_device();
+	
+	$('#bs5-grid').data('gridName', gn).attr('data-grid-name', gn);
+	$('#bs5-grid').data('deviceName', dn).attr('data-device-name', dn);
+	
+	$('body').data('gridName', gn).attr('data-grid-name', gn);
+	$('body').data('deviceName', dn).attr('data-device-name', dn);
+}
+
+
+$(document).ready(function() {
+	$('body').append($bs5grid);
+	set_bs5_grid_name();
+	
+	$(window).resize(function() {
+		set_bs5_grid_name();
+	});
+});
+
+// BOOTSTRAP-5.x current-grid ------------------------------------ ENDS
+
+
+// SHOW MORE / LESS ITEMS ---------------------------------------- STARTS
+function setGridColsClasses(_lm) {
+	var $rows		= $(_lm).find('.row');
+	var _lessItems	= $rows.find('.col').length;
+	var _gridObj	= $(_lm).data('lessRowsGridCols').split(/\s+/);
+	var _lessObj 	= {
+						xs: {rows:0, cols:1, items:_lessItems},
+						sm: {rows:0, cols:1, items:_lessItems},
+						md: {rows:0, cols:1, items:_lessItems},
+						lg: {rows:0, cols:1, items:_lessItems},
+						xl: {rows:0, cols:1, items:_lessItems},
+						xxl:{rows:0, cols:1, items:_lessItems}
+	};
+	
+	$(_lm).data('lessItems', _lessItems).attr('data-less-items', _lessItems);
+	
+	$.each(_gridObj, function(ix, val) {
+		var i0 = val.indexOf('-'), i1 = val.lastIndexOf('-');
+		var gn = val.substring(i0+1, i1);
+		var _r = parseInt(val.substring(0, i0));	if(isNaN( _r )) {_r = 0;}
+		var _c = parseInt(val.substring(i1 + 1));	if(isNaN( _c )) {_c = 1;}
+		var _rc = _r * _c;
+		
+		if(_rc <= 0 || _rc >= _lessItems) {
+			_rc = _lessItems;
+		}
+		
+		_lessObj[ gn ] = {rows:_r, cols:_c, items:_rc};
+	});
+	$(_lm).data('lessObj', _lessObj);
+	
+	$.each(_lessObj, function(prop, valObj) {
+		var className = 'row-cols-' + (prop == 'xs' ? '' : prop+'-') + valObj['cols'];
+		$rows.addClass( className );
+	});
+}
+function setLessMoreGroups(_lm) {
+	var gridObj		= $(_lm).data('lessRowsGridCols');
+	var $rows		= $(_lm).find('.row');
+	var $moreGroup	= $(_lm).prepend( $rows.clone().addClass('moreGroup collapse') );
+	var $lessGroup	= $(_lm).prepend( $rows.addClass('lessGroup') );
+	
+	$(_lm).find($(_lm).data( 'btnCollapse' ))
+		.attr('data-bs-toggle', 'collapse')
+		.attr('data-bs-target', _lm + ' .moreGroup');
+}
+function setCollapseBtn(_lm) {
+	var $lm 		 = $(_lm);
+	var $btn = $(_lm).find($(_lm).data( 'btnCollapse' ));
+		$btn.removeClass('d-none');
+	
+	if($btn.length > 0) {
+		var _lessObj = $lm.data('lessObj');
+		var gn = get_bs5_grid_name();
+		
+		//console.log(gn, _lessObj[ gn ]['items'], $(_lm).data('lessItems'));
+		if(_lessObj[ gn ]['items'] >= $(_lm).data('lessItems')) {
+			$btn.addClass('d-none');
+		}
+	}
+}
+function showLessMoreItems(_lm) {
+	var $lm = $(_lm);
+	var gn 	= get_bs5_grid_name();
+	var _lessObj 	= $lm.data('lessObj');
+	//
+	var _len = _lessObj[gn]['items'];
+	//
+	var $lessItems 		= $lm.find('.lessGroup .col');
+	var $moreItems 		= $lm.find('.moreGroup .col');
+	
+	$lessItems.addClass('d-none'), $moreItems.addClass('d-none');
+	
+	if(_len > 0) {
+		$lessItems.slice(0, _len).removeClass('d-none');
+		$moreItems.slice(_len).removeClass('d-none');
+	}
+	else {
+		$lessItems.slice(0, $lessItems.length).removeClass('d-none');
+	}	
+}
+function collapseMoreItems(_lm) {
+	$(_lm).find('.moreGroup').removeClass('show');
+	$(_lm).find($(_lm).data( 'btnCollapse' )).attr('aria-expanded', 'false');
+}
+function startLessMoreItems(_lm) {
+	//
+	setGridColsClasses(_lm);
+	//
+	setLessMoreGroups(_lm);
+	//
+	showLessMoreItems(_lm);
+	//
+	setCollapseBtn(_lm);
+	//
+	$(window).resize(function() {
+		showLessMoreItems(_lm);
+		//
+		collapseMoreItems(_lm);
+		//
+		setCollapseBtn(_lm);
+	});
+}
+$(document).ready(function() {
+	var useful_links = '#useful-links';
+	if( $(useful_links) ) startLessMoreItems( useful_links );
+});
+// SHOW MORE / LESS ITEMS ---------------------------------------- ENDS
+
+
+//<script id="js-bs5.3.3-navbar"> -------------------------------- STARTS
+function isCollapsible(_navbar) {
+	return $(_navbar).css('flex-direction') == 'column';
+}
+function setCollapsible(_navbar) {
+	var menu = isCollapsible(_navbar) ? 'mobile' : 'desktop';
+	var $navcollapse = $(_navbar).closest('.navbar-collapse');
+	$navcollapse.data('menu', menu).attr('data-menu', menu);
+	
+	setDropdownWidth(_navbar);
+}
+function getOffset($elm, height) {
+	var old;
+	if ($elm.css('display') == 'none') {
+		old = { position: $elm[0].style.position, visibility: $elm[0].style.visibility };
+		$elm.css({ position: 'absolute', visibility: 'hidden' }).show();
+	}
+	var box = $elm[0].getBoundingClientRect && $elm[0].getBoundingClientRect(),
+		val = box && (height ? box.height || box.bottom - box.top : box.width || box.right - box.left);
+	if (!val && val !== 0) {
+		val = height ? $elm[0].offsetHeight : $elm[0].offsetWidth;
+	}
+	if (old) {
+		$elm.hide().css(old);
+	}
+	return val;
+}
+function getUlWidth($elm) {
+	return getOffset($elm);
+}
+function setDropdownWidth(_navbar) {
+	var menu = $(_navbar).closest('.navbar-collapse').data('menu');
+	var minW=140, minWpx='140px';
+	var maxW=280, maxWpx='280px';
+	
+	$('#navigation ul.dropdown-menu').each(function(ix, elt) {
+		var $ul=$(elt), ulW=0;
+		//
+		$ul.addClass('menu-nowrap').css({width:'auto', minWidth:'', maxWidth:''});
+		ulW = getUlWidth($ul);
+		//console.log(ulW, maxW, $ul.find('li:first-child a').text());
+		//
+		if(minW) {
+			$ul.css({minWidth: minWpx});
+		}
+		if(menu == 'desktop') {
+			if(maxW) {
+				$ul.css({maxWidth: maxWpx});
+				//console.log(getUlWidth($ul), );
+				
+				if(ulW > getUlWidth($ul)) {
+					$ul.removeClass('menu-nowrap').css({width:maxWpx});
+				}
+			}
+		}
+	});
+	
+	if(menu == 'mobile') {
+		$('.navbar-collapse[data-menu="mobile"] .dropdown > a').on('click', function() {
+			$(this).closest('.dropdown').toggleClass('open');
+		});
+	}
+}
+$(document).ready(function() {
+	var navbar_nav = '#navigation .navbar-nav';
+	if( $(navbar_nav) ) {
+		setCollapsible(navbar_nav);
+		$(window).on('resize', function() {
+			setCollapsible( navbar_nav );
+		});
+	}
+});
+//<script id="js-bs5.3.3-navbar"> -------------------------------- ENDS
+
+
+// <script id="js-bs5.3.3-login-options"> ------------------------ STARTS
+function goToInbPage(elt, msg) {
+	var url = '';
+	var $elt = $(elt);
+	
+	if($elt.length == 1) url=$elt.data('value');
+	
+	if(url.length > 10) window.location.href=url;
+	else msg=msg || 'Not a valid selection', alert(msg);
+}
+
+$(document).ready(function() {
+	var login_dropdown = '.bootstrap-select ul.dropdown-menu li a.dropdown-item';
+	if( $(login_dropdown) ) {
+		$(login_dropdown).on('click', function() {
+			var $newDDI = $(this);
+			var newHtml = $newDDI.html();
+			
+			$newDDI.closest('ul.dropdown-menu').find('a.dropdown-item').removeClass('selected');
+			$newDDI.addClass('selected');
+			
+			$newDDI.closest('.bootstrap-select').find('.dropdown-toggle .dropdown-item-selected').html(newHtml+' <span class="bs-caret"><span class="caret"></span></span>');
+		});
+
+		var $corpDropdownItem = $('.bootstrap-select ul.dropdown-menu li a.dropdown-item.selected');
+		if($corpDropdownItem.length == 0) {
+			$corpDropdownItem = $('.bootstrap-select ul.dropdown-menu li:first-child a.dropdown-item');
+		}
+		$corpDropdownItem.trigger('click');
+	}
+});
+// <script id="js-bs5.3.3-login-options"> ------------------------ ENDS
